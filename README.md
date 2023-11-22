@@ -25,16 +25,26 @@ For manual deployments and custom builds, read below...
 
 There are two `make` scripts in this project.
 
-* [`Makefile`](Makefile) is intended to run on the build system, and just starts a Docker container matching the AWS Linux 2 environment for Lambda runtimes to compile ImageMagick using the second script.
+* [`Makefile`](Makefile) is intended to run on the build system, and starts a Docker container matching the AWS Linux 2 environment for Lambda runtimes to compile ImageMagick using the second script.
 * [`Makefile_ImageMagick`](Makefile_ImageMagick) is the script that will run inside the container, and actually compile binaries. 
 
 The output will be in the `result` dir.
+
+### Before you begin
+Make sure you pull the node image from AWS public ECR repo.
+
+```
+docker pull public.ecr.aws/lambda/nodejs:latest
+docker tag public.ecr.aws/lambda/nodejs lambda/nodejs:latest
+```
 
 ### Configuring the build
 
 By default, this compiles a version expecting to run as a Lambda layer from `/opt`. You can change the expected location by providing a `TARGET` variable when invoking `make`.
 
-The default Docker image used is `lambci/lambda-base-2:build`. To use a different base, provide a `DOCKER_IMAGE` variable when invoking `make`.
+The default Docker image used is `lambda/nodejs:latest`. To use a different base, provide a `DOCKER_IMAGE` variable when invoking `make`.
+
+[see list of official AWS Lambda images here](https://gallery.ecr.aws/lambda)
 
 Modify the versions of libraries or ImageMagick directly in [`Makefile_ImageMagick`](Makefile_ImageMagick).
 

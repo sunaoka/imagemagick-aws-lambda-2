@@ -1,6 +1,6 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-DOCKER_IMAGE ?= lambci/lambda-base-2:build
+DOCKER_IMAGE ?= lambda/nodejs:latest
 TARGET ?=/opt/
 
 MOUNTS = -v $(PROJECT_ROOT):/var/task \
@@ -20,8 +20,7 @@ bash:
 	$(DOCKER) $(MOUNTS) --entrypoint /bin/bash -t $(DOCKER_IMAGE)
 
 all libs: 
-	$(DOCKER) $(MOUNTS) --entrypoint /usr/bin/make -t $(DOCKER_IMAGE) TARGET_DIR=$(TARGET) -f ../Makefile_ImageMagick $@
-
+	$(DOCKER) $(MOUNTS) --entrypoint /bin/sh -t $(DOCKER_IMAGE) -c "dnf install make gcc tar xz gcc-c++ cmake autoconf automake zlib-devel libtool -y && make TARGET_DIR=$(TARGET) -f ../Makefile_ImageMagick $@"
 
 STACK_NAME ?= imagemagick-layer 
 

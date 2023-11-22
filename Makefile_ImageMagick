@@ -19,7 +19,9 @@ CONFIGURE = PKG_CONFIG_PATH=$(CACHE_DIR)/lib/pkgconfig \
 		--disable-dependency-tracking \
 		--disable-shared \
 		--enable-static \
-		--prefix=$(CACHE_DIR)
+		--prefix=$(CACHE_DIR) \
+		--build=aarch64-unknown-linux-gnu
+## build architecture can be https://stackoverflow.com/a/68025766
 
 ## libjpg
 
@@ -29,8 +31,9 @@ $(LIBJPG_SOURCE):
 	curl -LO http://ijg.org/files/$(LIBJPG_SOURCE)
 
 $(CACHE_DIR)/lib/libjpeg.a: $(LIBJPG_SOURCE)
+	echo $<
 	tar xf $<
-	cd jpeg*
+	cd $$(find . -type d -name "jpeg*" -print -quit)
 	$(CONFIGURE)	 
 	make
 	make install
@@ -45,8 +48,8 @@ $(LIBPNG_SOURCE):
 
 $(CACHE_DIR)/lib/libpng.a: $(LIBPNG_SOURCE)
 	tar xf $<
-	cd libpng*
-	$(CONFIGURE)	 
+	cd $$(find . -type d -name "libpng*" -print -quit)
+	$(CONFIGURE)
 	make
 	make install
 
@@ -59,7 +62,7 @@ $(BZIP2_SOURCE):
 
 $(CACHE_DIR)/lib/libbz2.a: $(BZIP2_SOURCE)
 	tar xf $<
-	cd bzip2-*
+	cd $$(find . -type d -name "bzip2-*" -print -quit)
 	make libbz2.a
 	make install PREFIX=$(CACHE_DIR)
 
@@ -72,8 +75,8 @@ $(LIBTIFF_SOURCE):
 
 $(CACHE_DIR)/lib/libtiff.a: $(LIBTIFF_SOURCE) $(CACHE_DIR)/lib/libjpeg.a
 	tar xf $<
-	cd tiff-*
-	$(CONFIGURE)	 
+	cd $$(find . -type d -name "tiff-*" -print -quit)
+	$(CONFIGURE)
 	make
 	make install
 
@@ -86,9 +89,9 @@ $(LIBWEBP_SOURCE):
 	
 $(CACHE_DIR)/lib/libwebp.a: $(LIBWEBP_SOURCE)
 	tar xf $<
-	cd libwebp-*
+	cd $$(find . -type d -name "libwebp-*" -print -quit)
 	sh autogen.sh
-	$(CONFIGURE)	 
+	$(CONFIGURE)
 	make
 	make install
 
@@ -102,7 +105,7 @@ $(OPENJP2_SOURCE):
 
 $(CACHE_DIR)/lib/libopenjp2.a: $(OPENJP2_SOURCE) $(CACHE_DIR)/lib/libpng.a $(CACHE_DIR)/lib/libtiff.a
 	tar xf $<
-	cd openjpeg-*
+	cd $$(find . -maxdepth 1 -type d -name "openjpeg-*" -print -quit)
 	mkdir -p build
 	cd build 
 	PKG_CONFIG_PATH=$(CACHE_DIR)/lib/pkgconfig cmake .. \
@@ -131,7 +134,7 @@ LIBS:=$(CACHE_DIR)/lib/libjpeg.a \
 
 $(TARGET_DIR)/bin/identify: $(IMAGE_MAGICK_SOURCE) $(LIBS)
 	tar xf $<
-	cd ImageMa*
+	cd $$(find . -type d -name "ImageMa*" -print -quit)
 	PKG_CONFIG_PATH=$(CACHE_DIR)/lib/pkgconfig \
 		./configure \
 		CPPFLAGS=-I$(CACHE_DIR)/include \
