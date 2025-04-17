@@ -20,7 +20,7 @@ bash:
 	$(DOCKER) $(MOUNTS) --entrypoint /bin/bash -t $(DOCKER_IMAGE)
 
 all libs: 
-	$(DOCKER) $(MOUNTS) --entrypoint /bin/sh -t $(DOCKER_IMAGE) -c "dnf install make gcc tar xz gcc-c++ cmake autoconf automake zlib-devel libtool -y && make TARGET_DIR=$(TARGET) -f ../Makefile_ImageMagick $@"
+	$(DOCKER) $(MOUNTS) --entrypoint /bin/sh -t $(DOCKER_IMAGE) -c "dnf install make gcc tar xz gcc-c++ cmake autoconf automake zlib-devel libtool -y && make -j$$(nproc) TARGET_DIR=$(TARGET) -f ../Makefile_ImageMagick $@"
 
 STACK_NAME ?= imagemagick-layer 
 
