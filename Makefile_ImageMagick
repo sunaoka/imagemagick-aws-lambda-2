@@ -44,7 +44,7 @@ $(CACHE_DIR)/lib/libjpeg.a: $(LIBJPG_SOURCE)
 LIBPNG_SOURCE=libpng-$(LIBPNG_VERSION).tar.xz
 
 $(LIBPNG_SOURCE):
-	curl -LO http://prdownloads.sourceforge.net/libpng/$(LIBPNG_SOURCE)
+	curl -LO https://downloads.sourceforge.net/project/libpng/libpng16/$(LIBPNG_VERSION)/$(LIBPNG_SOURCE)
 
 $(CACHE_DIR)/lib/libpng.a: $(LIBPNG_SOURCE)
 	tar xf $<
