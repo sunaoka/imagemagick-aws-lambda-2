@@ -1,6 +1,6 @@
 PROJECT_ROOT = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-DOCKER_IMAGE ?= lambda/nodejs:latest
+DOCKER_IMAGE ?= public.ecr.aws/lambda/nodejs:22
 TARGET ?=/opt/
 
 MOUNTS = -v $(PROJECT_ROOT):/var/task \
