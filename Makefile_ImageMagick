@@ -58,7 +58,7 @@ $(CACHE_DIR)/lib/libpng.a: $(LIBPNG_SOURCE)
 BZIP2_SOURCE=bzip2-$(BZIP2_VERSION).tar.gz
 
 $(BZIP2_SOURCE):
-	curl -LO http://prdownloads.sourceforge.net/bzip2/bzip2-$(BZIP2_VERSION).tar.gz
+	curl -LO https://sourceware.org/pub/bzip2/$(BZIP2_SOURCE)
 
 $(CACHE_DIR)/lib/libbz2.a: $(BZIP2_SOURCE)
 	tar xf $<
