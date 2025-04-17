@@ -156,4 +156,8 @@ $(TARGET_DIR)/bin/identify: $(IMAGE_MAGICK_SOURCE) $(LIBS)
 
 libs: $(LIBS)
 
-all: $(TARGET_DIR)/bin/identify
+all: $(TARGET_DIR)/bin/identify test
+
+test:
+	npm install cross-spawn
+	node -e "require('cross-spawn').sync('magick', ['-version'], { stdio: 'inherit' })"
