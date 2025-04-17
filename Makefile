@@ -38,6 +38,9 @@ build/layer.zip: result/bin/identify build
 build/output.yaml: template.yaml build/layer.zip
 	aws cloudformation package --template $< --s3-bucket $(DEPLOYMENT_BUCKET) --output-template-file $@
 
+archive/layer.zip: build/layer.zip
+	cp -p $< $@
+
 deploy: build/output.yaml
 	aws cloudformation deploy --template $< --stack-name $(STACK_NAME)
 	aws cloudformation describe-stacks --stack-name $(STACK_NAME) --query Stacks[].Outputs --output table
